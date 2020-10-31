@@ -1,0 +1,51 @@
+.main-div-notes {
+    width: 100%;
+    margin-top: 25px;
+    overflow: hidden;
+}
+
+.center-appear-note {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 300px;
+}
+
+.notes {
+    height: auto;
+}
+
+.cards {
+    background-color: rgb(230, 230, 230);
+    height: 250px;
+    margin: 10px 10px;
+}
+
+.note-title-delete {
+    font-size: '25px';
+    font-weight: 'bolder';
+    background-color: rgb(128, 128, 128);
+    padding: 7px 0px;
+    text-transform: uppercase;
+    color: rgb(255, 255, 255);
+    display: flex;
+}
+
+.note-body {
+    padding: 7px;
+}
+
+.note-title {
+    flex-basis: 90%;
+    text-align: center;
+}
+
+.deleteIcon {
+    flex-basis: 10%;
+    margin-left: auto;
+    align-self: center;
+    cursor: pointer;
+}
+.deleteIcon:hover{
+    color: black;
+}
