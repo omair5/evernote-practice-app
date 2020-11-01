@@ -5,6 +5,8 @@ const NotesReducer = (state = initialState, action) => {
             return [action.payload, ...state]
         case 'filtered array':
             return action.payload
+        case 'for delete animation':
+            return action.payload
         default:
             return state
     }

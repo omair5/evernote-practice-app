@@ -32,7 +32,7 @@ const TextEditor = () => {
             dispatch(
                 {
                     type: 'add note',
-                    payload: { title: title, note: note, id: uuidv4() }
+                    payload: { title: title, note: note, id: uuidv4(), visibility: false }
                 })
             setAlert(false)
             setNote('')
