@@ -1,15 +1,17 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import './notes.css'
 import Grid from '@material-ui/core/Grid';
 import { Animated } from "react-animated-css";
 import parser from 'html-react-parser';
 import DeleteIcon from '@material-ui/icons/Delete';
+import EventNoteIcon from '@material-ui/icons/EventNote';
+
 const Notes = () => {
     // -----------------LOGIC
     const myNotes = useSelector((state) => state.myNotes)
-    console.log(myNotes)
     const dispatch = useDispatch()
+
     const deleteItem = (id) => {
         const apply_animation = myNotes.findIndex((value) => value.id === id)
         const new_arr = [...myNotes]
@@ -22,8 +24,6 @@ const Notes = () => {
             type: 'filtered array',
             payload: myNotes.filter((value) => value.id !== id)
         }), 1000)
-
-
     }
 
 
@@ -33,6 +33,7 @@ const Notes = () => {
             {myNotes.length === 0
                 ?
                 <div className='center-appear-note'>
+                    <EventNoteIcon style={{ fontSize: '50px'}} />
                     <h5>YOUR NOTES WILL APPEAR HERE...</h5>
                 </div>
                 :

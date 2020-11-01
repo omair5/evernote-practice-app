@@ -7,6 +7,7 @@ import AddCircleIcon from '@material-ui/icons/AddCircle';
 import './textEditor.css'
 import { useDispatch } from 'react-redux';
 import { v4 as uuidv4 } from 'uuid';
+import CancelIcon from '@material-ui/icons/Cancel';
 
 
 
@@ -37,8 +38,11 @@ const TextEditor = () => {
             setAlert(false)
             setNote('')
         }
+    }
 
-
+    const CancelNote = () => {
+        setTitle('')
+        seteditorState(EditorState.createEmpty())
     }
 
     // --------------------USER INTERFCAE
@@ -66,7 +70,10 @@ const TextEditor = () => {
                     },
                 }}
             />
+            {console.log(editorState)}
             < AddCircleIcon style={{ fontSize: '50px' }} className='addIcon' onClick={AddNote} />
+            {(title !== '') || (note !== '') ? <CancelIcon style={{ fontSize: '50px' }} className='cancelIcon' onClick={CancelNote} /> : null}
+
         </div>
     );
 }
