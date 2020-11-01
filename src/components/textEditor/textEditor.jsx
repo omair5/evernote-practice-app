@@ -8,6 +8,7 @@ import './textEditor.css'
 import { useDispatch } from 'react-redux';
 import { v4 as uuidv4 } from 'uuid';
 import CancelIcon from '@material-ui/icons/Cancel';
+import Tooltip from '@material-ui/core/Tooltip';
 
 
 
@@ -43,6 +44,7 @@ const TextEditor = () => {
     const CancelNote = () => {
         setTitle('')
         seteditorState(EditorState.createEmpty())
+        setNote('')
     }
 
     // --------------------USER INTERFCAE
@@ -71,8 +73,15 @@ const TextEditor = () => {
                 }}
             />
             {console.log(editorState)}
-            < AddCircleIcon style={{ fontSize: '50px' }} className='addIcon' onClick={AddNote} />
-            {(title !== '') || (note !== '') ? <CancelIcon style={{ fontSize: '50px' }} className='cancelIcon' onClick={CancelNote} /> : null}
+            <Tooltip title="Add" aria-label="add">
+                < AddCircleIcon style={{ fontSize: '50px' }} className='addIcon' onClick={AddNote} />
+            </Tooltip>
+            {(title !== '') || (note !== '') ?
+                <Tooltip title="Cancel" >
+                    <CancelIcon style={{ fontSize: '50px' }} className='cancelIcon' onClick={CancelNote} />
+                </Tooltip>
+                :
+                null}
 
         </div>
     );

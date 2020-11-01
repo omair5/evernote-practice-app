@@ -6,6 +6,8 @@ import { Animated } from "react-animated-css";
 import parser from 'html-react-parser';
 import DeleteIcon from '@material-ui/icons/Delete';
 import EventNoteIcon from '@material-ui/icons/EventNote';
+import Tooltip from '@material-ui/core/Tooltip';
+
 
 const Notes = () => {
     // -----------------LOGIC
@@ -23,7 +25,7 @@ const Notes = () => {
         setTimeout(() => dispatch({
             type: 'filtered array',
             payload: myNotes.filter((value) => value.id !== id)
-        }), 1000)
+        }), 500)
     }
 
 
@@ -33,7 +35,7 @@ const Notes = () => {
             {myNotes.length === 0
                 ?
                 <div className='center-appear-note'>
-                    <EventNoteIcon style={{ fontSize: '50px'}} />
+                    <EventNoteIcon style={{ fontSize: '50px' }} />
                     <h5>YOUR NOTES WILL APPEAR HERE...</h5>
                 </div>
                 :
@@ -42,11 +44,13 @@ const Notes = () => {
                     <Grid container spacing={2} >
                         {myNotes.map((value) => (
                             <Grid item xs={12} md={6} lg={4} key={value.id}>
-                                <Animated animationIn="zoomIn" animationOut="zoomOutDown" isVisible={value.visibility ? false : true} >
+                                <Animated animationIn="zoomIn" animationOut="zoomOut" isVisible={value.visibility ? false : true} >
                                     <div className='cards custom-scroll'>
                                         <div className='note-title-delete'>
                                             <h1 className='note-title'>{value.title}</h1>
-                                            <DeleteIcon onClick={() => deleteItem(value.id)} className='deleteIcon' style={{ fontSize: '25px' }} />
+                                            <Tooltip title="Delete" >
+                                                <DeleteIcon onClick={() => deleteItem(value.id)} className='deleteIcon' style={{ fontSize: '25px' }} />
+                                            </Tooltip>
                                         </div>
                                         <div className='note-body'>
                                             {parser(value.note)}
@@ -62,4 +66,4 @@ const Notes = () => {
     );
 }
 
-export default Notes;
+export default React.memo(Notes);
