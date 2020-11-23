@@ -7,11 +7,14 @@ import parser from 'html-react-parser';
 import DeleteIcon from '@material-ui/icons/Delete';
 import EventNoteIcon from '@material-ui/icons/EventNote';
 import Tooltip from '@material-ui/core/Tooltip';
+import SearchIcon from '@material-ui/icons/Search';
 
 
 const Notes = () => {
     // -----------------LOGIC
     const myNotes = useSelector((state) => state.myNotes)
+    const searched = useSelector((state) => state.searched)
+    const inputValue = useSelector((state) => state.inputValue)
     const dispatch = useDispatch()
 
     const deleteItem = (id) => {
@@ -38,29 +41,60 @@ const Notes = () => {
                     <EventNoteIcon style={{ fontSize: '50px' }} />
                     <h5>YOUR NOTES WILL APPEAR HERE...</h5>
                 </div>
+
                 :
                 /* USING custom-scroll CLASSNAME FROM textEditor.css */
-                <div className=' main-div-notes notes'>
-                    <Grid container spacing={2} >
-                        {myNotes.map((value) => (
-                            <Grid item xs={12} md={6} lg={4} key={value.id}>
-                                <Animated animationIn="zoomIn" animationOut="zoomOut" isVisible={value.visibility ? false : true} >
-                                    <div className='cards custom-scroll'>
-                                        <div className='note-title-delete'>
-                                            <h1 className='note-title'>{value.title}</h1>
-                                            <Tooltip title="Delete" >
-                                                <DeleteIcon onClick={() => deleteItem(value.id)} className='deleteIcon' style={{ fontSize: '25px' }} />
-                                            </Tooltip>
+                searched.length !== 0 ?
+                    <div className=' main-div-notes notes'>
+                        <Grid container spacing={2} >
+                            {searched.map((value) => (
+                                <Grid item xs={12} md={6} lg={4} key={value.id}>
+                                    <Animated animationOut="zoomOut" isVisible={value.visibility ? false : true} >
+                                        <div className='cards custom-scroll'>
+                                            <div className='note-title-delete'>
+                                                <h1 className='note-title'>{value.title}</h1>
+                                                <Tooltip title="Delete" >
+                                                    <DeleteIcon onClick={() => deleteItem(value.id)} className='deleteIcon' style={{ fontSize: '25px' }} />
+                                                </Tooltip>
+                                            </div>
+                                            <div className='note-body'>
+                                                {parser(value.note)}
+                                            </div>
                                         </div>
-                                        <div className='note-body'>
-                                            {parser(value.note)}
-                                        </div>
-                                    </div>
-                                </Animated>
-                            </ Grid>
-                        ))}
-                    </Grid>
-                </div>
+                                    </Animated>
+                                </ Grid>
+                            ))}
+                        </Grid>
+                    </div>
+                    :
+                    (searched.length === 0) && (inputValue)
+                        ?
+                        <div className='center-appear-note'>
+                            <SearchIcon style={{ fontSize: '50px' }} />
+                            <h5>SORRY NO RESULT FOUND...</h5>
+                        </div>
+                        :
+                        <div className=' main-div-notes notes'>
+                            <Grid container spacing={2} >
+                                {myNotes.map((value) => (
+                                    <Grid item xs={12} md={6} lg={4} key={value.id}>
+                                        <Animated animationIn="zoomIn" animationOut="zoomOut" isVisible={value.visibility ? false : true} >
+                                            <div className='cards custom-scroll'>
+                                                <div className='note-title-delete'>
+                                                    <h1 className='note-title'>{value.title}</h1>
+                                                    <Tooltip title="Delete" >
+                                                        <DeleteIcon onClick={() => deleteItem(value.id)} className='deleteIcon' style={{ fontSize: '25px' }} />
+                                                    </Tooltip>
+                                                </div>
+                                                <div className='note-body'>
+                                                    {parser(value.note)}
+                                                </div>
+                                            </div>
+                                        </Animated>
+                                    </ Grid>
+                                ))}
+                            </Grid>
+                        </div>
             }
         </>
     );

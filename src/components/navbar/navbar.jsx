@@ -6,6 +6,7 @@ import InputBase from '@material-ui/core/InputBase';
 import { fade, makeStyles } from '@material-ui/core/styles';
 import SearchIcon from '@material-ui/icons/Search';
 import Grid from '@material-ui/core/Grid';
+import { useDispatch, useSelector } from 'react-redux';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -14,9 +15,9 @@ const useStyles = makeStyles((theme) => ({
     title: {
         flexGrow: 1,
         display: 'block',
-        [theme.breakpoints.between('xs','sm')]: {
+        [theme.breakpoints.between('xs', 'sm')]: {
             textAlign: 'center',
-            padding:'5px'
+            padding: '5px'
         },
     },
     searchPosition: {
@@ -34,7 +35,7 @@ const useStyles = makeStyles((theme) => ({
         marginLeft: 0,
         width: '60%',
         [theme.breakpoints.down('md')]: {
-           marginBottom:'10px',
+            marginBottom: '10px',
             width: '100%',
         },
     },
@@ -58,11 +59,27 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-export default function Navbar() {
+function Navbar() {
+    // ------------------LOGIC
     const classes = useStyles();
+    const myNotes = useSelector((state) => state.myNotes)
+    const inputValue = useSelector((state) => state.inputValue)
+    const dispatch = useDispatch()
+    const HandleFilter = (valueForFilter) => {
+        dispatch({ type: 'update value', payload: valueForFilter })
+        if (valueForFilter === '') {
+            dispatch({ type: 'empty search array', payload: [] })
+        }
+        else {
+            dispatch({ type: 'searched array', payload: myNotes.filter((value) => value.title.toLowerCase().includes(valueForFilter.toLowerCase())) })
+        }
+    }
 
+    // ------------------USER INTERFACE
     return (
         <div className={classes.root}>
+            {console.log('this is text Navbar component')}
+
             <AppBar position="static">
                 <Toolbar>
                     <Grid container spacing={0}>
@@ -78,13 +95,15 @@ export default function Navbar() {
                                         <SearchIcon />
                                     </div>
                                     <InputBase
-                                        placeholder="Search Your Note By Title..."
+                                        placeholder="Filter Your Note By Title..."
                                         classes={{
                                             root: classes.inputRoot,
                                             input: classes.inputInput,
                                         }}
                                         inputProps={{ 'aria-label': 'search' }}
                                         fullWidth={true}
+                                        value={inputValue}
+                                        onChange={(e) => HandleFilter(e.target.value)}
                                     />
                                 </div>
                             </div>
@@ -95,3 +114,4 @@ export default function Navbar() {
         </div>
     );
 }
+export default React.memo(Navbar) 

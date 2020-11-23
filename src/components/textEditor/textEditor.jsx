@@ -50,6 +50,7 @@ const TextEditor = () => {
     // --------------------USER INTERFCAE
     return (
         <div className='main-div'>
+             {console.log('this is text editor component')}
             {alert && <span className='alert'>This field is required!</span>}
             <input type="text" className='title' value={title} placeholder='Write Your Title Here...' onChange={(e) => setTitle(e.target.value)} />
             <Editor
@@ -72,7 +73,6 @@ const TextEditor = () => {
                     },
                 }}
             />
-            {console.log(editorState)}
             <Tooltip title="Add" aria-label="add">
                 < AddCircleIcon style={{ fontSize: '50px' }} className='addIcon' onClick={AddNote} />
             </Tooltip>
